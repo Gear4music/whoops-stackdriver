@@ -1,0 +1,32 @@
+{
+    "name": "dancryer/whoops-stackdriver",
+    "description": "Provides a handler for Whoops that outputs a StackDriver ReportedErrorEvent.",
+    "type": "library",
+    "license": "BSD-2-Clause",
+
+    "authors": [
+        {
+            "name": "Dan Cryer",
+            "homepage": "https://www.dancryer.com",
+            "role": "Developer"
+        }
+    ],
+
+    "autoload": {
+        "psr-4": {
+            "WhoopsStackdriver\\": "src/",
+            "WhoopsStackdriver\\Tests\\": "tests/"
+        }
+    },
+
+    "require": {
+        "php": "^7.0",
+        "ext-json": "*",
+        "filp/whoops": "^v2.7.2"
+    },
+
+    "require-dev": {
+        "phpunit/phpunit": "^9.1.5",
+        "symfony/var-dumper": "^5.1.0"
+    }
+  }
