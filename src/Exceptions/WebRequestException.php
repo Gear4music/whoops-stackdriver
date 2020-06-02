@@ -18,7 +18,7 @@ class WebRequestException extends Exception implements ExceptionWithContext
     /** @return string */
     public function getServiceName() : string
     {
-        return $this->serviceName;
+        return $this->serviceName ?? '';
     }
 
     /**
@@ -34,7 +34,7 @@ class WebRequestException extends Exception implements ExceptionWithContext
     /** @return string */
     public function getServiceVersion() : string
     {
-        return $this->serviceVersion;
+        return $this->serviceVersion ?? '';
     }
 
     /**
