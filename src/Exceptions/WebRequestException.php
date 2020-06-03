@@ -77,9 +77,9 @@ class WebRequestException extends Exception implements ExceptionWithContext
 
     /**
      * @param Throwable $throwable
-     * @return static
+     * @return ExceptionWithContext
      */
-    public static function wrap(Throwable $throwable) : self
+    public static function wrap(Throwable $throwable) : ExceptionWithContext
     {
         return new static($throwable->getMessage(), $throwable->getCode(), $throwable);
     }
