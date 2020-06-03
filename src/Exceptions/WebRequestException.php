@@ -3,6 +3,7 @@
 namespace WhoopsStackdriver\Exceptions;
 
 use Exception;
+use Throwable;
 
 class WebRequestException extends Exception implements ExceptionWithContext
 {
@@ -72,5 +73,14 @@ class WebRequestException extends Exception implements ExceptionWithContext
     {
         $this->context = $context;
         return $this;
+    }
+
+    /**
+     * @param Throwable $throwable
+     * @return static
+     */
+    public static function wrap(Throwable $throwable) : self
+    {
+        return new static($throwable->getMessage(), $throwable->getCode(), $throwable);
     }
 }
