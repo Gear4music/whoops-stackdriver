@@ -2,6 +2,8 @@
 
 namespace WhoopsStackdriver\Exceptions;
 
+use Throwable;
+
 interface ExceptionWithContext
 {
     /** @return string */
@@ -12,4 +14,10 @@ interface ExceptionWithContext
 
     /** @return array */
     public function getContext() : array;
+
+    /**
+     * @param Throwable $throwable
+     * @return static
+     */
+    public static function wrap(Throwable $throwable) : self;
 }
