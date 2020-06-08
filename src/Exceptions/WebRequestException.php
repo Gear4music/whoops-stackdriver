@@ -7,46 +7,8 @@ use Throwable;
 
 class WebRequestException extends Exception implements ExceptionWithContext
 {
-    /** @var string */
-    private $serviceName;
-
-    /** @var string */
-    private $serviceVersion;
-
     /** @var array */
     private $context = [];
-
-    /** @return string */
-    public function getServiceName() : string
-    {
-        return $this->serviceName ?? '';
-    }
-
-    /**
-     * @param string $serviceName
-     * @return self
-     */
-    public function setServiceName(string $serviceName) : self
-    {
-        $this->serviceName = $serviceName;
-        return $this;
-    }
-
-    /** @return string */
-    public function getServiceVersion() : string
-    {
-        return $this->serviceVersion ?? '';
-    }
-
-    /**
-     * @param string $serviceVersion
-     * @return self
-     */
-    public function setServiceVersion(string $serviceVersion) : self
-    {
-        $this->serviceVersion = $serviceVersion;
-        return $this;
-    }
 
     /** @return array */
     public function getContext() : array
