@@ -12,10 +12,13 @@ class StackdriverHandler extends Handler
     /** @var bool */
     private $shouldCloseHandle = false;
 
+    /** @var array */
+    private $serviceContext = [];
+
     /**
      * @param resource $outputHandle
      */
-    public function __construct($outputHandle = null)
+    public function __construct(array $serviceContext = [], $outputHandle = null)
     {
         // If we don't have a specific output handle, write directly to stderr.
         if (is_null($outputHandle)) {
@@ -23,6 +26,7 @@ class StackdriverHandler extends Handler
             $this->shouldCloseHandle = true;
         }
 
+        $this->serviceContext = $serviceContext;
         $this->outputHandle = $outputHandle;
     }
 
@@ -41,7 +45,7 @@ class StackdriverHandler extends Handler
      */
     public function handle() : int
     {        
-        $formatter = new ExceptionFormatter($this->getException());
+        $formatter = new ExceptionFormatter($this->getException(), $this->serviceContext);
         fwrite($this->outputHandle, $formatter->toJson() . PHP_EOL);
         return Handler::DONE;
     }
