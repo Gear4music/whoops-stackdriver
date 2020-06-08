@@ -10,9 +10,17 @@ class ExceptionFormatter
     /** @var Throwable */
     private $throwable;
 
-    public function __construct(Throwable $throwable)
+    /** @var array */
+    private $serviceContext;
+
+    /**
+     * @param Throwable $throwable
+     * @param array $serviceContext
+     */
+    public function __construct(Throwable $throwable, array $serviceContext = [])
     {
         $this->throwable = $throwable;
+        $this->serviceContext = $serviceContext;
     }
 
     /**
@@ -25,43 +33,28 @@ class ExceptionFormatter
         $rtn = [
             '@type' => 'type.googleapis.com/google.devtools.clouderrorreporting.v1beta1.ReportedErrorEvent',
             'eventTime' => (new \DateTime())->format(\DateTimeInterface::RFC3339),
-            'serviceContext' => [
-                'service' => null,
-                'version' => null,
-            ],
+            'serviceContext' => $this->serviceContext,
             'context' => [],
             'severity' => 'ERROR',
 
         ];
 
-        // Get the exception we should be reporting on:
-        $exception = $this->throwable->getPrevious();
-
-        if (null === $exception) {
-            $exception = $this->throwable;
-        }
-
         // Set initial context:
         if ($this->throwable instanceof ExceptionWithContext) {
             $rtn['context'] = $this->throwable->getContext();
-
-            $rtn['serviceContext'] = [
-                'service' => $this->throwable->getServiceName(),
-                'version' => $this->throwable->getServiceVersion(),
-            ];
         }
 
         // Format the exception message in such a way that Google will identify it as an error and handle it properly.
-        $rtn['message'] = sprintf('PHP Warning: %s', (string)$exception);
+        $rtn['message'] = sprintf('PHP Warning: %s', (string)$this->throwable);
 
         // Add process ID:
         $rtn['context']['pid'] = getmypid();
 
         // Add exception report details:
         $rtn['context']['reportLocation'] = [
-            'filePath' => $exception->getFile(),
-            'lineNumber' => $exception->getLine(),
-            'functionName' => $this->getFunctionNameForReport($exception->getTrace()),
+            'filePath' => $this->throwable->getFile(),
+            'lineNumber' => $this->throwable->getLine(),
+            'functionName' => $this->getFunctionNameForReport($this->throwable->getTrace()),
         ];
 
         // HTTP request specific context:
