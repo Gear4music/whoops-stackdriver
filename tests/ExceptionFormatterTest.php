@@ -11,8 +11,6 @@ class ExceptionFormatterTest extends TestCase
     public function testAddContext()
     {
         $exception = new WebRequestException();
-        $exception->setServiceName('test-service');
-        $exception->setServiceVersion('v1.0.0');
         $exception->addContext('test', true);
         $exception->addContext('test2', 'test');
         
@@ -23,15 +21,11 @@ class ExceptionFormatterTest extends TestCase
         $this->assertArrayHasKey('test2', $output['context']);
         $this->assertEquals(true, $output['context']['test']);
         $this->assertEquals('test', $output['context']['test2']);
-        $this->assertEquals('test-service', $output['serviceContext']['service']);
-        $this->assertEquals('v1.0.0', $output['serviceContext']['version']);
     }
 
     public function testJsonFormatting()
     {
         $exception = new WebRequestException();
-        $exception->setServiceName('test-service');
-        $exception->setServiceVersion('v1.0.0');
         $exception->addContext('test', true);
         $exception->addContext('test2', 'test');
         
