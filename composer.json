@@ -1,5 +1,5 @@
 {
-    "name": "dancryer/whoops-stackdriver",
+    "name": "gear4music/whoops-stackdriver",
     "description": "Provides a handler for Whoops that outputs a StackDriver ReportedErrorEvent.",
     "type": "library",
     "license": "BSD-2-Clause",
