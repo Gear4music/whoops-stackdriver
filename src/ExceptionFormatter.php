@@ -36,8 +36,11 @@ class ExceptionFormatter
             'serviceContext' => $this->serviceContext,
             'context' => [],
             'severity' => 'ERROR',
-
         ];
+
+        if (defined('GCP_TRACE_ID')) {
+            $rtn['logging.googleapis.com/trace'] = GCP_TRACE_ID;
+        }
 
         // Set initial context:
         if ($this->throwable instanceof ExceptionWithContext) {
