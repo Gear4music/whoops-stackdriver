@@ -63,10 +63,10 @@ class ExceptionFormatter
         // HTTP request specific context:
         if (php_sapi_name() !== 'cli') {
             // Add HTTP request details to the context array:
-            $rtn['context']['httpRequest']['method'] = $_SERVER['REQUEST_METHOD'];
-            $rtn['context']['httpRequest']['url'] = $_SERVER['REQUEST_URI'];
-            $rtn['context']['httpRequest']['userAgent'] = $_SERVER['HTTP_USER_AGENT'];
-            $rtn['context']['httpRequest']['remoteIp'] = $_SERVER['REMOTE_ADDR'];
+            $rtn['context']['httpRequest']['method'] = $_SERVER['REQUEST_METHOD'] ?? 'Unknown';
+            $rtn['context']['httpRequest']['url'] = $_SERVER['REQUEST_URI'] ?? 'Unknown';
+            $rtn['context']['httpRequest']['userAgent'] = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
+            $rtn['context']['httpRequest']['remoteIp'] = $_SERVER['REMOTE_ADDR'] ?? 'Unknown';
 
             // Add session details to the context array:
             if (PHP_SESSION_ACTIVE === session_status()) {
