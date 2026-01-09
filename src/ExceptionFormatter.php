@@ -24,7 +24,7 @@ class ExceptionFormatter
     }
 
     /**
-     * Create an approriately formatted log message for a Google Stackdriver Reported Error Event.
+     * Create an appropriately formatted log message for a Google Stackdriver Reported Error Event.
      * @link https://cloud.google.com/error-reporting/docs/formatting-error-messages#json_representation
      * @return array
      */
@@ -64,9 +64,17 @@ class ExceptionFormatter
         if (php_sapi_name() !== 'cli') {
             // Add HTTP request details to the context array:
             $rtn['context']['httpRequest']['method'] = $_SERVER['REQUEST_METHOD'] ?? 'Unknown';
-            $rtn['context']['httpRequest']['url'] = $_SERVER['REQUEST_URI'] ?? 'Unknown';
+            $rtn['context']['httpRequest']['url'] = sprintf(
+                '%s://%s%s',
+                isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http',
+                $_SERVER['HTTP_HOST'] ?? 'Unknown',
+                $_SERVER['REQUEST_URI'] ?? 'Unknown'
+            );
+
             $rtn['context']['httpRequest']['userAgent'] = $_SERVER['HTTP_USER_AGENT'] ?? 'Unknown';
             $rtn['context']['httpRequest']['remoteIp'] = $_SERVER['REMOTE_ADDR'] ?? 'Unknown';
+            $rtn['context']['httpRequest']['referrer'] = $_SERVER['HTTP_REFERER'] ?? 'Unknown';
+            $rtn['context']['httpRequest']['responseStatusCode'] = $_SERVER['REDIRECT_STATUS'] ?? 0;
 
             // Add session details to the context array:
             if (PHP_SESSION_ACTIVE === session_status()) {
